@@ -1,0 +1,11 @@
+# Ignorar archivos compilados (.class)
+*.class
+
+# Ignorar directorios de compilación
+/bin/
+/out/
+/build/
+/target/
+
+# VS Code
+.vscode/
