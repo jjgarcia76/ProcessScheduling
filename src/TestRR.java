@@ -1,6 +1,6 @@
-import processing.SimpleProcess;
-import processing.IOProcess;
-import processing.rr.RRIOProcess;
+import scheduler.processing.IOProcess;
+import scheduler.processing.SimpleProcess;
+import scheduler.processing.rr.RRIOProcess;
 
 public class TestRR {
 

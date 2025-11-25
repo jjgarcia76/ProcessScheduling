@@ -1,6 +1,6 @@
-package processing.rr;
+package scheduler.processing.rr;
 
-import processing.IOProcess;
+import scheduler.processing.IOProcess;
 
 /* SimpleProcess.java */
 /**

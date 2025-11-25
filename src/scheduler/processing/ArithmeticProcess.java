@@ -1,4 +1,4 @@
-package processing;
+package scheduler.processing;
 
 /* 
     Esta es una clase modelo de los procesos que nos piden crear y representa el tipo aritmético

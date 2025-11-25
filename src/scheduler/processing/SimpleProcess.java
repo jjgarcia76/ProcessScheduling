@@ -1,4 +1,4 @@
-package processing;
+package scheduler.processing;
 
 /* SimpleProcess.java */
 /**

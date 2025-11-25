@@ -9,7 +9,7 @@
  **/
 
 
-package processing;
+package scheduler.processing;
 
 
 public class IOProcess extends SimpleProcess {
