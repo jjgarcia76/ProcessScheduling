@@ -1,19 +1,15 @@
-package scheduler.processing;
-
 /* SimpleProcess.java */
 /**
- ** Hecho por: Santiago
- ** Carnet: 25000328
- ** Seccion: A
- PSDT: Lo hago porque si o si se necesita el id, el tiempo de serivicio y el tipo en cualquier proceso
- por lo cual creo que necesitamos obligar a cada clase tener esto
- 
- 
- **/
+ * Hecho por: Santiago
+ * Carnet: 25000328
+ * Seccion: A
+ * PSDT: Lo hago porque si o si se necesita el id, el tiempo de serivicio y el tipo en cualquier proceso
+ * por lo cual creo que necesitamos obligar a cada clase tener esto
+ */
 
-
+package scheduler.processing;
 public abstract class SimpleProcess {
-    
+
     // Cada proceso debe tener estos campos obligatoriamente
     protected final int id;
     protected final long serviceTime;   
@@ -25,15 +21,15 @@ public abstract class SimpleProcess {
         this.typeName = typeName;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public long getServiceTime(){
+    public long getServiceTime() {
         return serviceTime;
     }
 
-    public String getTypeName(){
+    public String getTypeName() {
         return typeName;
     }
 

@@ -9,3 +9,12 @@
 
 # VS Code
 .vscode/
+
+# Evitar subir clases compiladas
+out/
+
+# Archivos del sistema
+.DS_Store
+
+# Archivos temporales
+*.class

@@ -3,16 +3,17 @@
 /**
  * Hecho por: Jonathan Garcia
  * Carnet: 25001306
- * Seccion: 25001306
+ * Seccion: A
  * Clase Main del Proyecto #2 – Process Scheduling
  * Esta clase interpreta los argumentos enviados desde consola, selecciona
  * la política indicada y ejecuta la simulación hasta que el usuario
  * presione la tecla 'q'. 
- * Todavia no contiene la logica interna de las politicas, generador de procesos o procesador, 
- * solo es el esqueleto principal para arrancar el proyecto.
-*/
+ */
 
-import java.io.*;  //InputStreamReader y BufferedReader
+import java.io.*;  // InputStreamReader y BufferedReader
+import scheduler.scheduling.policy.*;   // FCFSPolicy, LCFSPolicy, etc.
+import planificador.GeneradorProcesos;
+import planificador.Procesador;
 
 public class ProcessScheduler {
     public static void main(String[] args) {
@@ -25,53 +26,55 @@ public class ProcessScheduler {
                 System.out.println("java ProcessScheduler -rr rango arith io cond loop quantum");
                 return;
             }
-            //politica
-            String politica = args[0];
-            boolean esRR = politica.equalsIgnoreCase("-rr");
+
+            // 1) política
+            String politicaFlag = args[0];
+            boolean esRR = politicaFlag.equalsIgnoreCase("-rr");
 
             if (esRR && args.length < 7) {
-                System.out.println("se ha dado un error debido a que para el Round Robin se debe agregar un quantum"); 
+                System.out.println("Error: para Round Robin se debe agregar un quantum");
                 return;
             }
-            //rango de ingreso, ejemplo de 1.5-3
+
+            // 2) rango de ingreso, ejemplo: 1.5-3
             String rango = args[1];
             String[] rparts = rango.split("-");
             double rangoMin = Double.parseDouble(rparts[0]);
             double rangoMax = Double.parseDouble(rparts[1]);
 
-            //tiempos por tipo de proceso
+            // 3) tiempos por tipo de proceso (segundos)
             double timeArith = Double.parseDouble(args[2]);
             double timeIO = Double.parseDouble(args[3]);
             double timeCond = Double.parseDouble(args[4]);
             double timeLoop = Double.parseDouble(args[5]);
 
-            // Quantum (SOLO para RR)
+            // 4) Quantum (SOLO para RR)
             double quantum = 0;
             if (esRR) {
                 quantum = Double.parseDouble(args[6]);
             }
 
-            //Creacion de las politicas
-            Object politicaUsada = null; //luego sera FCFS, LCFS, RR o PP
-            switch (politica.toLowerCase()) {
+            // 5) Crear la política concreta
+            Policy politicaUsada = null;
+            switch (politicaFlag.toLowerCase()) {
                 case "-fcfs":
                     System.out.println("Politica escogida: FIRST COME FIRST SERVED");
-                    politicaUsada = null; //luego creamos FCFSPolicy
+                    politicaUsada = new FCFSPolicy();
                     break;
                 case "-lcfs":
                     System.out.println("Politica escogida: LAST COME FIRST SERVED");
-                    politicaUsada = null; //luego creamos el LCFSPolicy
+                    politicaUsada = new LCFSPolicy();
                     break;
                 case "-pp":
                     System.out.println("Politica escogida: PRIORITY POLICY");
-                    politicaUsada = null; //luego creamos el PPPolicy
+                    politicaUsada = new PriorityPolicy();
                     break;
                 case "-rr":
                     System.out.println("Politica escogida: ROUND ROBIN");
-                    politicaUsada = null; //luego creamos el RRPolicy
+                    politicaUsada = new RRPolicy(quantum);
                     break;
                 default:
-                    System.out.println("Escoge una que este disponible");
+                    System.out.println("Error: política no reconocida.");
                     return;
             }
 
@@ -82,42 +85,61 @@ public class ProcessScheduler {
             System.out.println("Tiempo en Cond: " + timeCond);
             System.out.println("Tiempo en Loop: " + timeLoop);
             if (esRR) {
-                System.out.println("Quantum: " + quantum);
+                System.out.println("Quantum: " + quantum + " segundos");
             }
 
-            /**    
-             * AQUI luego crearemos: ProcessGenerator generator = new ProcessGenerator(...); y Processor cpu = new Processor(...);
-             * Thread tg = new Thread(generator);
-             * Thread tp = new Thread(cpu);
-             * tg.start();
-             * tp.start();
-            */
+            // 6) Crear generador y procesador
+            GeneradorProcesos generador = new GeneradorProcesos(
+                politicaUsada,
+                rango,
+                timeArith,
+                timeIO,
+                timeCond,
+                timeLoop
+            );
+
+            Procesador procesador = new Procesador(politicaUsada);
+            // 7) Crear hilos
+            Thread hiloGen  = new Thread(generador);
+            Thread hiloProc = new Thread(procesador);
+
+            // 8) Iniciar hilos
+            hiloGen.start();
+            hiloProc.start();
 
             System.out.println("\nSe esta ejecutando el programa");
             System.out.println("Presione 'q' + ENTER para detener la ejecucion\n");
 
+            // 9) Esperar a que el usuario presione 'q'
             BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
-            String linea = "";
-
+            String linea;
             while (true) {
                 linea = buffer.readLine();
                 if (linea != null && linea.trim().equalsIgnoreCase("q")) {
-                    System.out.println("\nSe esta deteniendo la ejecucion");
+                    System.out.println("\nSe esta deteniendo la ejecucion...");
                     break;
                 }
             }
 
-            //generator.stop(), cpu.stop(), tg.join(), tp.join()
-            //resumen final para cuando todo este listo
+            // 10) Detener hilos
+            generador.detener();
+            procesador.detener();
 
+            try{
+                hiloGen.join(2000);   // esperamos hasta 2 segundos a que termine
+                hiloProc.join(2000);
+            }catch(InterruptedException e){
+
+            }
+
+            // 11) Resumen final
             System.out.println("\n------------------------------------");
             System.out.println("Termino la ejecucion del programa");
             System.out.println("------------------------------------");
-            System.out.println("Procesos atendidos: [pendiente]");
-            System.out.println("Procesos en cola: [pendiente]");
-            System.out.println("Tiempo promedio: [pendiente]");
-            System.out.println("Politica usada: " + politica);
-
+            System.out.println("Procesos atendidos: " + procesador.getProcesosAtendidos());
+            System.out.println("Procesos pendientes en cola: " + politicaUsada.getQueueSize());
+            System.out.println("Tiempo promedio de atencion (ms): " + procesador.getTiempoPromedioMs());
+            System.out.println("Politica usada: " + politicaUsada.getNombrePolitica());
         } catch (Exception exception) {
             System.out.println("Error de ejecucion: ");
             exception.printStackTrace();

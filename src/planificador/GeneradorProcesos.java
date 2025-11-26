@@ -3,47 +3,50 @@
 /** 
  * Hecho por: Jonathan Garcia
  * Carnet: 25001306
- * Sección: A
+ * Seccion: A
+ * 
  * Descripción:
- * En esta clase se generan procesos aleatorios en intervalos aleatorios.
- * Cada proceso tiene:
- *  - id incremental
- *  - tipo aleatorio (A, IO, C, L)
- *  - tiempo correspondiente según el tipo.
- * El generador introduce los procesos en la cola manejada por la política.
-*/
+ * Genera procesos aleatorios de tipo:
+ *   - Aritmético
+ *   - IO
+ *   - Condicional
+ *   - Loop
+ * 
+ * Compatible con TODAS las políticas:
+ *   - FCFS
+ *   - LCFS
+ *   - Priority Policy (PP)
+ *   - Round Robin (RR)
+ */
 
 package planificador;
 
-import java.util.*;
-import scheduler.politicas.Politica;
-import scheduler.procesamiento.*;
+import java.util.Random;
+
+import scheduler.scheduling.policy.*;
+import scheduler.processing.*;
+import scheduler.processing.pp.*;
+import scheduler.processing.rr.*;
+
 
 public class GeneradorProcesos implements Runnable {
 
-    private Politica politica;
+    private Policy politica;
     private double minTiempo;
     private double maxTiempo;
     private int idContador = 1;
     private boolean activo = true;
+
     private Random random = new Random();
 
+    // Tiempos en segundos
     private double tiempoArit;
     private double tiempoIO;
     private double tiempoCond;
     private double tiempoLoop;
 
-    /**
-     * Constructor
-     * @param politica  Politica usada para encolar nuevos procesos
-     * @param rango     Ejemplo: 1.5-3
-     * @param arith     Tiempo de proceso aritmetico
-     * @param io        Tiempo de proceso I/O
-     * @param cond      Tiempo de proceso condicional
-     * @param loop      Tiempo de proceso iterativo
-     */
     public GeneradorProcesos(
-        Politica politica,
+        Policy politica,
         String rango,
         double arith,
         double io,
@@ -62,59 +65,73 @@ public class GeneradorProcesos implements Runnable {
         this.tiempoLoop = loop;
     }
 
-    /**
-     * Genera un tipo aleatorio:
-     * 0 = Aritmetico
-     * 1 = IO
-     * 2 = Condicional
-     * 3 = Iterativo
-     */
+    /** Retorna un tipo aleatorio entre 0 y 3 */
     private int tipoAleatorio() {
         return random.nextInt(4);
     }
 
-    /**
-     * Genera un tiempo aleatorio entre minTiempo y maxTiempo
-     */
+    /** Tiempo aleatorio entre minTiempo y maxTiempo */
     private double tiempoAleatorio() {
         return minTiempo + (maxTiempo - minTiempo) * random.nextDouble();
     }
 
-    /**
-     * Hilo generador de procesos
-     * Crea un proceso y lo envía a la politica para que lo agregue
-     */
     @Override
     public void run() {
+
         System.out.println("\n--- Generador de procesos activo ---");
+
         while (activo) {
+
             int tipo = tipoAleatorio();
-            ProcesoSimple nuevo = null;
+            int id = idContador++;
+            long tiempoMs;
+            SimpleProcess nuevo = null;
+
+            // Detectar política
+            boolean esPP = politica instanceof PriorityPolicy;
+            boolean esRR = politica instanceof RRPolicy;
+
+            // Si es prioridad → generar prioridad 1–3
+            int prio = random.nextInt(3) + 1;
+
             switch (tipo) {
-                case 0: 
-                    nuevo = new ProcesoAritmetico(idContador++, tiempoArit); 
+
+                case 0: // Aritmético
+                    tiempoMs = (long) (tiempoArit * 1000);
+                    nuevo = esPP ? new PriorityArithmeticProcess(id, tiempoMs, prio) : esRR ? new RRArithmeticProcess(id, tiempoMs) : new ArithmeticProcess(id, tiempoMs);
                     break;
-                case 1: 
-                    nuevo = new ProcesoIO(idContador++, tiempoIO); 
+
+                case 1: // IO
+                    tiempoMs = (long) (tiempoIO * 1000);
+                    nuevo = esPP ? new PriorityIOProcess(id, tiempoMs, prio) : esRR ? new RRIOProcess(id, tiempoMs) : new IOProcess(id, tiempoMs);
                     break;
-                case 2: 
-                    nuevo = new ProcesoCondicional(idContador++, tiempoCond); 
+
+                case 2: // Condicional
+                    tiempoMs = (long) (tiempoCond * 1000);
+                    nuevo = esPP ? new PriorityConditionalProcess(id, tiempoMs, prio) : esRR ? new RRConditionalProcess(id, tiempoMs) : new ConditionalProcess(id, tiempoMs);
                     break;
-                case 3: 
-                    nuevo = new ProcesoIterativo(idContador++, tiempoLoop); 
+
+                case 3: // Loop
+                    tiempoMs = (long) (tiempoLoop * 1000);
+                    nuevo = esPP ? new PriorityLoopProcess(id, tiempoMs, prio) : esRR ? new RRLoopProcess(id, tiempoMs) : new LoopProcess(id, tiempoMs);
                     break;
             }
+
+            // Mostrar proceso
+            System.out.println("Nuevo proceso generado: " + nuevo);
+
+            // Encolarlo
             politica.encolarProceso(nuevo);
+
+            // Esperar
             try {
                 Thread.sleep((long) (tiempoAleatorio() * 1000));
             } catch (InterruptedException e) {}
         }
-        
+
+        System.out.println("--- Generador de procesos detenido ---");
     }
 
-    /**
-     * Detiene la generacion de los procesos
-     */
     public void detener() {
         activo = false;
     }
