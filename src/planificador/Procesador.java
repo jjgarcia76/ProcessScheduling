@@ -3,10 +3,10 @@
 /**
  * Hecho por: Jonathan Garcia
  * Carnet: 25001306
- * Sección A
+ * Seccion A
  *
- * Procesador del simulador.
- * Atiende procesos según la política seleccionada.
+ * Procesador del simulador
+ * Atiende procesos según la política seleccionada
  * 
  * Para RR:
  *   - Usa quantum

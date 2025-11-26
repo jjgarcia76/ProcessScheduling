@@ -4,7 +4,7 @@
  ** Hecho por: Jonathan Garcia
  ** Carnet: 25001306
  ** Seccion: A
- ** Proceso aritmético adaptado para Round Robin.
+ ** Proceso aritmetico adaptado para Round Robin
  */
 
 package scheduler.processing.rr;

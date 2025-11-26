@@ -4,9 +4,9 @@
  * Carnet: 25001306
  * Seccion: A
  * Descripcion:
- * Proceso de tipo Iterativo / Loop (L).
- * Representa procesos que repiten instrucciones (ciclos).
- * Hereda de SimpleProcess y fija el tipo "L".
+ * Proceso de tipo Iterativo / Loop (L)
+ * Representa procesos que repiten instrucciones (ciclos)
+ * Hereda de SimpleProcess y fija el tipo L
  */
 
 package scheduler.processing;

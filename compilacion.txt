@@ -11,7 +11,6 @@ rm -rf out
 
 javac -d out $(find src -name "*.java") ProcessScheduler.java
 
-
 FORMA 2 — Compilar con comodines '**'
 
 1) Activar globstar solo para Mac:
@@ -21,6 +20,8 @@ shopt -s globstar
 2) Compilar se puede hacer en Linux o windows sin el globstar:
 
 javac -d out src/**/*.java ProcessScheduler.java
+
+javac -d out ProcessScheduler.java src\planificador\*.java src\scheduler\processing\*.java src\scheduler\processing\pp\*.java src\scheduler\processing\rr\*.java src\scheduler\scheduling\*.java src\scheduler\scheduling\policy\*.java
 
 Ejemplo de ejecucion
 

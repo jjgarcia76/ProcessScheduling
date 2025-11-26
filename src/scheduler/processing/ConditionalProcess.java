@@ -4,9 +4,9 @@
  * Carnet: 25001306
  * Seccion: A
  * Descripcion:
- * Proceso de tipo Condicional (C).
- * Representa procesos que realizan evaluaciones de condiciones.
- * Hereda de SimpleProcess y fija el tipo "C".
+ * Proceso de tipo Condicional (C)
+ * Representa procesos que realizan evaluaciones de condiciones
+ * Hereda de SimpleProcess y fija el tipo "C"
  */
 
 package scheduler.processing;

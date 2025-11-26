@@ -26,7 +26,6 @@ public class RRIOProcess extends IOProcess {
     }
 
     /*
-     
      * retorna el tiempo restante
      */
     public long getRemainingTime() {

@@ -42,6 +42,6 @@ public class TestRR {
             System.out.println("---------------------------");
         }
 
-        System.out.println("Proceso RRIO terminado ✅");
+        System.out.println("Proceso RRIO terminado");
     }
 }

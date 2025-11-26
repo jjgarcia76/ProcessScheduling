@@ -10,7 +10,7 @@
 package scheduler.processing;
 public abstract class SimpleProcess {
 
-    // Cada proceso debe tener estos campos obligatoriamente
+    //cada proceso debe tener estos campos obligatoriamente
     protected final int id;
     protected final long serviceTime;   
     protected final String typeName;
@@ -33,7 +33,7 @@ public abstract class SimpleProcess {
         return typeName;
     }
 
-    // Los transformamos a String para saber su id, tipo y los ms del servicio
+    //los transformamos a String para saber su id, tipo y los ms del servicio
     @Override
     public String toString() {
         return "[" + id + " | " + typeName + " | " + serviceTime + "ms]";
