@@ -21,7 +21,15 @@ shopt -s globstar
 
 javac -d out src/**/*.java ProcessScheduler.java
 
-javac -d out ProcessScheduler.java src\planificador\*.java src\scheduler\processing\*.java src\scheduler\processing\pp\*.java src\scheduler\processing\rr\*.java src\scheduler\scheduling\*.java src\scheduler\scheduling\policy\*.java
+javac -d out `
+ProcessScheduler.java `
+src\planificador\*.java `
+src\scheduler\processing\*.java `
+src\scheduler\processing\pp\*.java `
+src\scheduler\processing\rr\*.java `
+src\scheduler\scheduling\*.java `
+src\scheduler\scheduling\policy\*.java `
+src\gui\*.java
 
 Ejemplo de ejecucion
 
