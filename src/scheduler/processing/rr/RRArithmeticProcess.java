@@ -1,8 +1,8 @@
 /* RRArithmeticProcess.java */
 
 /**
- ** Hecho por: Jonathan Garcia
- ** Carnet: 25001306
+ ** Hecho por: Rong-yih Tong Tsai
+ ** Carnet: 25006044
  ** Seccion: A
  ** Proceso aritmetico adaptado para Round Robin
  */

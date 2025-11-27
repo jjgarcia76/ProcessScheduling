@@ -1,5 +1,13 @@
 /* PriorityConditionalProcess.java */
 
+/**
+ ** Hecho por: Rong-yih Tong Tsai
+ ** Carnet: 25006044
+ ** Seccion: A
+ ** Proceso Loop
+ */
+
+
 package scheduler.processing.pp;
 
 import scheduler.processing.ConditionalProcess;

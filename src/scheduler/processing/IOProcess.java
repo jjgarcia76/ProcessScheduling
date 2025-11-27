@@ -12,7 +12,7 @@ package scheduler.processing;
 
 public class IOProcess extends SimpleProcess {
     /**
-     * Constructor del proceso IO.
+     * Constructor del proceso IO
      * @param id identificador unico del proceso
      * @param serviceTime tiempo total de servicio en milisegundos
      */

@@ -62,17 +62,17 @@ public class GeneradorProcesos implements Runnable {
     }
 
     /** Retorna un tipo aleatorio entre 0 y 3 */
-    private int tipoAleatorio() {
+    private int tipoAleatorio(){
         return random.nextInt(4);
     }
 
     /** Tiempo aleatorio entre minTiempo y maxTiempo */
-    private double tiempoAleatorio() {
+    private double tiempoAleatorio(){
         return minTiempo + (maxTiempo - minTiempo) * random.nextDouble();
     }
 
     @Override
-    public void run() {
+    public void run(){
         System.out.println("\n--- Generador de procesos activo ---");
         while (activo) {
             int tipo = tipoAleatorio();

@@ -25,6 +25,8 @@ javac -d out ProcessScheduler.java src\planificador\*.java src\scheduler\process
 
 Ejemplo de ejecucion
 
+java -cp out gui.SchedulerGUI
+
 java -cp out ProcessScheduler -fcfs 1-3 1 1 1 1
 java -cp out ProcessScheduler -lcfs 1-3 1 1 1 1
 java -cp out ProcessScheduler -pp   1-3 1 1 1 1

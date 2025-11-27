@@ -1,5 +1,12 @@
 /* RRConditionalProcess.java */
 
+/**
+ ** Hecho por: Rong-yih Tong Tsai
+ ** Carnet: 25006044
+ ** Seccion: A
+ ** Proceso Loop
+ */
+
 package scheduler.processing.rr;
 
 import scheduler.processing.ConditionalProcess;
