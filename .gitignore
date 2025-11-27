@@ -1,6 +1,3 @@
-# Ignorar archivos compilados (.class)
-*.class
-
 # Ignorar directorios de compilación
 /bin/
 /build/
@@ -12,5 +9,3 @@
 # Archivos del sistema
 .DS_Store
 
-# Archivos temporales
-*.class
